@@ -12,63 +12,77 @@
 
 #include <unistd.h>
 #include <stdbool.h>
+#include <stdio.h>
 
-int		ft_strlen(char *str)
+int        ft_strlen(char *str)
 {
-	int strlen;
-
-	while (!str[strlen])
-		strlen++;
-	return (strlen);
+    int strlen;
+    
+    strlen = 0;
+    while (*str)
+    {
+        str++;
+        strlen++;
+    }
+    return (strlen);
 }
 
-bool	ft_is_letter(char c)
+bool    ft_is_letter(char c)
 {
-	if ((c < 123 && c > 96) || (c > 64 && c < 91))
-		return (true);
-	return (false);
+    if ((c < 123 && c > 96) || (c > 64 && c < 91))
+        return (true);
+    return (false);
 }
 
-bool	ft_is_lowercase(char c)
+bool    ft_is_alpha(char c)
 {
-	if (c < 123 && c > 96)
-		return (true);
-	return (false);
+    if (ft_is_letter(c) || (c > 47 && c < 58))
+        return true;
+    return false;
 }
 
-char	*ft_strcapitalize(char *str)
+bool    ft_is_lowercase(char c)
 {
-	int counter;
-
-	counter = 1;
-	if (*str > 'a' && *str < 'z')
-		*str -= 32;
-	while (!str[counter])
-	{
-		if (!ft_is_letter(str[counter - 1]) && ft_is_lowercase(str[counter]))
-		{
-			str[counter] -= 32;
-			counter++;
-		}
-		counter++;
-	}
-	return (str);
+    if (c < 123 && c > 96)
+        return (true);
+    return (false);
 }
 
-void	ft_putstr(char *str)
+char    *ft_strcapitalize(char *str)
 {
-	int strlen;
+    int counter;
 
-	strlen = ft_strlen(str);
-	write(1, str, strlen);
+    counter = 1;
+    if (*str > 'a' && *str < 'z')
+        *str -= 32;
+    while (str[counter])
+    {
+        if (!ft_is_alpha(str[counter - 1]) && ft_is_lowercase(str[counter]))
+        {
+            str[counter] -= 32;
+            counter++;
+        }
+        counter++;
+    }
+    return (str);
+}
+
+void    ft_putstr(char *str)
+{
+    int strlen;
+
+    strlen = ft_strlen(str);
+    write(1, str, strlen);
 }
 
 
 int main()
 {
-	char str[] = "salut, comment tu vas ? 42mots quarante-deux; cinquante+et+un";
-	char *p_str = &str[0];
-	ft_putstr(str);
-	p_str = ft_strcapitalize(p_str);
-	ft_putstr(str);
+    char str[] = "salut, comment tu vas ? 42mots $&)j&@jm;sfg quarante-deux; cinquante+et+un";
+    char *p_str = &str[0];
+    ft_putstr(str);
+    p_str = ft_strcapitalize(p_str);
+    printf("\n");
+    ft_putstr(str);
+    printf("\n");
 }
