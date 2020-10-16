@@ -12,13 +12,16 @@
 
 #include <unistd.h>
 
-char	*ft_strupcase(char *str)
+char    *ft_strupcase(char *str)
 {
-	while (!*str)
-	{
-		if (*str > 'a' && *str < 'z')
-			*str -= 32;
-		*str++;
-	}
-	return (*str);
+    while (*str)
+        //pas !*str
+    {
+        if (*str > 'a' && *str < 'z')
+            *str -= 32;
+        str++;
+        //faire str++ par *str++
+    }
+    return (str);
+    //attention à retourner str sans *
 }
