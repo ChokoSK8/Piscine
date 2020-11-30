@@ -6,13 +6,14 @@
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 14:58:07 by abrun             #+#    #+#             */
-/*   Updated: 2020/11/27 18:10:47 by abrun            ###   ########.fr       */
+/*   Updated: 2020/11/30 17:10:24 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
 #include "Libft/libft.h"
 #include <stdio.h>
+#define MAX(x, y) x < y ? y : x
 
 int		ft_putpui(long long int nbr, int base_len)
 {
@@ -95,6 +96,170 @@ int		check_point(char *num)
 	return (0);
 }
 
+int		is_flag_point(char *num)
+{
+	int		counter;
+
+	counter = 0;
+	while (num[counter] && num[counter] != '.')
+		counter++;
+	if (!num[counter])
+		return (0);
+	return (1);
+}
+
+int		get_flag_n(char *num)
+{
+	size_t		start;
+	int			n;
+
+	start = ft_strlen(num) - 1;
+	if (is_flag_point(num))
+	{
+		while (num[start] != '.' && start >= 0)
+			start--;
+		start--;
+	}
+	while (ft_isdigit(num[start]) && start >= 0)
+		start--;
+	n = ft_atoi(num + start + 1);
+	return (n);
+}
+
+int		get_flag_point(char *num)
+{
+	int			point;
+	size_t		start;
+
+	start = 0;
+	while (num[start] != '.' && num[start])
+		start++;
+	point = ft_atoi(num + start + 1);
+	return (point);
+}
+
+int		is_flag_zero(char *num)
+{
+	int		counter;
+
+	counter = 0;
+	if (num[0] == '-')
+		return (0);
+	if (num[counter] == '0')
+		return (1);
+	counter++;
+	while (num[counter])
+	{
+		if (num[counter] == '0' && !ft_isdigit(num[counter - 1]))
+			return (1);
+		counter++;
+	}
+	return (0);
+}
+
+int		get_space_or_plus(char *num)
+{
+	int		counter;
+
+	counter = 0;
+	while (num[counter] && num[counter] != '+')
+		counter++;
+	if (num[counter])
+		return ('+');
+	counter = 0;
+	while (num[counter] && num[counter] != ' ')
+		counter++;
+	if (num[counter])
+		return (32);
+	return (0);
+}
+
+int		get_filler(char *num, int n_point)
+{
+	if (is_flag_zero(num) && !is_flag_point(num))
+		return ('0');
+	return (32);
+}
+
+int		print_point(char *num, int n, int n_point)
+{
+	if (is_flag_point(num) &&  !n && !n_point)
+		return (0);
+	return (1);
+}
+
+int		get_filler_negative(char *num, int n_point)
+{
+	if (is_flag_point(num) && n_point)
+		return ('0');
+	return (32);
+}
+
+void	print_d(int  n, char *num)
+{
+	int			n_chr;
+	int			puissance;
+	int			space_plus;
+	int			filler;
+	int			n_point;
+	long int	nbr;
+
+	nbr = n;
+	n_chr = get_flag_n(num);
+	n_point = get_flag_point(num);
+	puissance = ft_putpui(n, 10);
+	space_plus = get_space_or_plus(num);
+	space_plus && n_chr ? n_chr-- : n_chr;
+	filler = get_filler(num, n_point);
+	if (space_plus == 32 && !(num[0] == '-' && n < 0))
+		ft_putchar_fd(32, 1);
+	if (num[0] != '-')
+	{
+		if (filler == '0' && space_plus == '+' && n >= 0) 
+			ft_putchar_fd(space_plus, 1);
+		if (space_plus == '+' && n < 0)
+			n_chr++;
+		if (filler == '0' && n < 0)
+		{
+			ft_putchar_fd('-', 1);
+			nbr *= -1;
+		}
+		while (n_chr > puissance && n_chr > n_point)
+		{
+			ft_putchar_fd(filler, 1);
+			n_chr--;
+		}
+		if (space_plus == '+' && filler != '0' && print_point(num, n, n_point) && n >= 0)
+			ft_putchar_fd(space_plus, 1);
+		while (n_point > puissance++) 
+			ft_putchar_fd('0', 1);
+		if (print_point(num, n, n_point))
+			ft_putnbr_fd(nbr, 1);
+		if (!print_point(num, n, n_point) && n_chr > 0)
+			ft_putchar_fd(filler, 1);
+		if (space_plus == '+' && !print_point(num, n, n_point) && n >= 0)
+			ft_putchar_fd('+', 1);
+	}
+	else
+	{
+		if (space_plus == '+' && n >= 0)
+			ft_putchar_fd(space_plus, 1);
+		if (space_plus && n < 0)
+			n_chr++;
+		if (print_point(num, n, n_point))
+			ft_putnbr_fd(n, 1);
+		if (!print_point(num, n, n_point) && n_chr > 0)
+			ft_putchar_fd(filler, 1);
+		while (puissance < n_point)
+		{
+			ft_putchar_fd('0', 1);
+			puissance++;
+		}
+		while (puissance++ < n_chr)
+			ft_putchar_fd(32, 1);
+	}
+}
+		
 void	print_point_d(int n, char *num, int find_space)
 {
 	int		nbr_1;
@@ -149,7 +314,7 @@ void	print_point_d(int n, char *num, int find_space)
 	}
 }
 
-void	print_d(int n, char *num)
+void	print_dbis(int n, char *num)
 {
 	int	nbr;
 	int	puissance;
