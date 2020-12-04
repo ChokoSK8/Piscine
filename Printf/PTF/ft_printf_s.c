@@ -6,13 +6,13 @@
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 13:41:21 by abrun             #+#    #+#             */
-/*   Updated: 2020/12/04 13:57:51 by abrun            ###   ########.fr       */
+/*   Updated: 2020/12/04 16:57:22 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
 
-char	*get_null_s(char *s, int *puissance, int n_point)
+char		*get_null_s(char *s, int *puissance, int n_point)
 {
 	if (!(s = ft_strdup("(null)", n_point)))
 		return (0);
@@ -20,7 +20,7 @@ char	*get_null_s(char *s, int *puissance, int n_point)
 	return (s);
 }
 
-int		print_s_normal(char *s, int n_chr, char *num)
+int			print_s_normal(char *s, int n_chr, char *num)
 {
 	int			n_point;
 	int			filler;
@@ -44,7 +44,7 @@ int		print_s_normal(char *s, int n_chr, char *num)
 	return (res);
 }
 
-int		print_s_neg(char *s, int n_chr, char *num)
+int			print_s_neg(char *s, int n_chr, char *num)
 {
 	int			puissance;
 	int			n_point;

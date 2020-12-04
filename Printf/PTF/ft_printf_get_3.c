@@ -1,40 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_printf_get_3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/18 11:33:27 by abrun             #+#    #+#             */
-/*   Updated: 2020/12/04 18:33:35 by abrun            ###   ########.fr       */
+/*   Created: 2020/12/04 16:42:09 by abrun             #+#    #+#             */
+/*   Updated: 2020/12/04 16:42:30 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "printf.h"
 
-int	ft_atoi(const char *str)
+int		ft_putpui(long long int nbr, int base_len)
 {
-	long int		res;
-	unsigned int	n_minus;
+	long long int	res;
+	long int		puissance;
+	long long int	base;
 
-	res = 0;
-	n_minus = 0;
-	while (*str == 32)
-		str++;
-	while ((*str >= 9 && *str <= 13) || *str == 32)
-		str++;
-	if (*str == '+' || *str == '-')
+	puissance = 0;
+	res = nbr;
+	base = base_len;
+	if (res < 0)
 	{
-		if (*str == '-')
-			n_minus++;
-		str++;
+		puissance++;
+		res = -res;
 	}
-	while (ft_isdigit(*str))
+	while (res >= base)
 	{
-		res *= 10;
-		res += *str - '0';
-		str++;
+		puissance++;
+		base *= base_len;
 	}
-	n_minus ? res *= -1 : res;
-	return (res);
+	return (puissance + 1);
 }

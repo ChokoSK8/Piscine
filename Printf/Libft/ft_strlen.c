@@ -6,7 +6,7 @@
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 12:33:42 by abrun             #+#    #+#             */
-/*   Updated: 2020/12/04 09:18:20 by abrun            ###   ########.fr       */
+/*   Updated: 2020/12/04 18:34:09 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 size_t		ft_strlen(const char *s)
 {
 	size_t strlen;
-	
+
 	if (!s)
 		return (-1);
 	strlen = 0;

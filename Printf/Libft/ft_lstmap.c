@@ -6,7 +6,7 @@
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 09:52:04 by abrun             #+#    #+#             */
-/*   Updated: 2020/11/23 10:31:47 by abrun            ###   ########.fr       */
+/*   Updated: 2020/12/04 18:33:54 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
 	t_list		*newlst;
 	t_list		*tmp;
-	
+
 	if (!(newlst = malloc(sizeof(t_list))))
 		return (0);
 	(void)(del);

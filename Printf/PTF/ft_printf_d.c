@@ -6,13 +6,26 @@
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 11:00:46 by abrun             #+#    #+#             */
-/*   Updated: 2020/12/04 12:01:34 by abrun            ###   ########.fr       */
+/*   Updated: 2020/12/04 18:05:05 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
 
-int		print_d_normal(int space_plus, int n, int n_chr, char *num)
+int			get_pui_n_chr(int *n_chr, int n)
+{
+	int		puissance;
+	int		chr;
+
+	chr = *n_chr;
+	puissance = ft_putpui(n, 10);
+	n < 0 ? chr-- : chr;
+	n < 0 ? puissance-- : puissance;
+	*n_chr = chr;
+	return (puissance);
+}
+
+int			print_d_normal(int space_plus, int n, int n_chr, char *num)
 {
 	int			puissance;
 	int			n_point;
@@ -21,34 +34,40 @@ int		print_d_normal(int space_plus, int n, int n_chr, char *num)
 	int			res;
 
 	nbr = n;
-	puissance = ft_putpui(n, 10);
 	n_point = get_flag_point(num);
 	res = get_res_npt_pos(n, n_chr, n_point, space_plus);
-	if (!print_point(num, n, n_point) && n_chr == 0 && !space_plus)
-		res = 0;
-	if (!print_point(num, n, n_point) && n_chr == 0 && space_plus)
-		res = 1;
-	n < 0 ? n_chr-- : n_chr;
-	n < 0 ? puissance-- : puissance;
+	!p_p(num, n, n_point) && n_chr == 0 && !space_plus ? res = 0 : res;
+	!p_p(num, n, n_point) && n_chr == 0 && space_plus ? res = 1 : res;
+	puissance = get_pui_n_chr(&n_chr, n);
 	filler = get_filler(num);
 	n < 0 && (filler == '0' || n_point > puissance) ? nbr *= -1 : nbr;
 	n_chr += print_d_1(filler, space_plus, n);
-	print_d_2(filler, n);
 	n_chr = print_d_3(n_chr, puissance, n_point, filler);
-	if (space_plus == '+' && filler != '0'
-		&& print_point(num, n, n_point) && n >= 0)
+	if (space_plus == '+' && filler != '0' && p_p(num, n, n_point) && n >= 0)
 		ft_putchar_fd(space_plus, 1);
-	print_d_4(n_point, puissance, n, filler);
-	puissance = print_d_5(n_point, puissance);
+	puissance = print_d_5(n_point, puissance, n, filler);
 	print_d_6(num, n, n_point, nbr);
-	if (!print_point(num, n, n_point) && n_chr > 0)
+	if (!p_p(num, n, n_point) && n_chr > 0)
 		ft_putchar_fd(filler, 1);
-	if (space_plus == '+' && !print_point(num, n, n_point) && n >= 0)
+	if (space_plus == '+' && !p_p(num, n, n_point) && n >= 0)
 		ft_putchar_fd('+', 1);
 	return (res);
 }
 
-int		print_d_neg(int space_plus, int n, int n_chr, char *num)
+int			get_nbr_pui(long int *nbr, int n_point)
+{
+	int		puissance;
+	int		n;
+
+	n = *nbr;
+	puissance = ft_putpui(n, 10);
+	n < 0 && n_point ? puissance-- : puissance;
+	n < 0 && n_point ? n *= -1 : n;
+	*nbr = n;
+	return (puissance);
+}
+
+int			print_d_neg(int space_plus, int n, int n_chr, char *num)
 {
 	int			puissance;
 	int			n_point;
@@ -57,15 +76,11 @@ int		print_d_neg(int space_plus, int n, int n_chr, char *num)
 	int			res;
 
 	nbr = n;
-	puissance = ft_putpui(n, 10);
 	n_point = get_flag_point(num);
+	puissance = get_nbr_pui(&nbr, n_point);
 	res = get_res_npt_neg(n, n_chr, n_point, space_plus);
-	if (!print_point(num, n, n_point) && n_chr == 0 && !space_plus)
-		res = 0;
-	if (!print_point(num, n, n_point) && n_chr == 0 && space_plus)
-		res = 1;
-	n < 0 && n_point ? nbr *= -1 : nbr;
-	n < 0 && n_point ? puissance-- : puissance;
+	!p_p(num, n, n_point) && n_chr == 0 && !space_plus ? res = 0 : res;
+	!p_p(num, n, n_point) && n_chr == 0 && space_plus ? res = 1 : res;
 	filler = get_filler(num);
 	n_chr += print_d_n_1(n_point, n);
 	if (space_plus == '+' && n >= 0)
@@ -73,9 +88,8 @@ int		print_d_neg(int space_plus, int n, int n_chr, char *num)
 	if (space_plus && n < 0)
 		n_chr++;
 	puissance = print_d_n_2(puissance, n_point);
-	if (print_point(num, n, n_point))
-		ft_putnbr_fd(nbr, 1);
-	if (!print_point(num, n, n_point) && n_chr > 0)
+	print_d_6(num, n, n_point, nbr);
+	if (!p_p(num, n, n_point) && n_chr > 0)
 		ft_putchar_fd(32, 1);
 	while (puissance++ < n_chr)
 		ft_putchar_fd(32, 1);
@@ -86,7 +100,7 @@ int			print_d(int n, char *num)
 {
 	int		space_plus;
 	int		n_chr;
-	
+
 	n_chr = get_flag_n(num);
 	space_plus = get_space_or_plus(num);
 	space_plus && n_chr ? n_chr-- : n_chr;

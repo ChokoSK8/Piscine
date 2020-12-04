@@ -6,7 +6,7 @@
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 13:52:50 by abrun             #+#    #+#             */
-/*   Updated: 2020/12/02 14:04:27 by abrun            ###   ########.fr       */
+/*   Updated: 2020/12/04 16:58:06 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void		print_s_npt(int n_point, char *s, int puissance, char *num)
 			puissance--;
 		}
 		while (puissance--)
-			ft_putchar_fd(32,1);
+			ft_putchar_fd(32, 1);
 	}
 }
-

@@ -6,7 +6,7 @@
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 16:14:00 by abrun             #+#    #+#             */
-/*   Updated: 2020/12/02 16:48:10 by abrun            ###   ########.fr       */
+/*   Updated: 2020/12/04 16:58:22 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int			print_point_u(char *num, unsigned int n, int n_point)
 	return (1);
 }
 
-void		print_u_3(char *num,unsigned int n, int n_point)
+void		print_u_3(char *num, unsigned int n, int n_point)
 {
 	if (print_point_u(num, n, n_point))
 		ft_putnbr_fd(n, 1);

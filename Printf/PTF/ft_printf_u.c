@@ -6,7 +6,7 @@
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 16:12:02 by abrun             #+#    #+#             */
-/*   Updated: 2020/12/03 14:20:01 by abrun            ###   ########.fr       */
+/*   Updated: 2020/12/04 17:40:03 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ int		print_u_normal(unsigned int n, int n_chr, char *num)
 	puissance = ft_putpui(n, 10);
 	n_point = get_flag_point(num);
 	res = get_res_npt(puissance, n_chr, n_point, 0);
-	if (!print_point(num, n, n_point) && n_chr == 0)
+	if (!p_p(num, n, n_point) && n_chr == 0)
 		res = 0;
 	filler = get_filler(num);
 	n_chr = print_u_2(n_chr, puissance, n_point, filler);
-	puissance = print_d_5(n_point, puissance);
+	puissance = print_d_5(n_point, puissance, n, filler);
 	print_u_3(num, n, n_point);
 	if (!print_point_u(num, n, n_point) && n_chr > 0)
 		ft_putchar_fd(filler, 1);
@@ -43,11 +43,11 @@ int		print_u_neg(unsigned int n, int n_chr, char *num)
 	puissance = ft_putpui(n, 10);
 	n_point = get_flag_point(num);
 	res = get_res_npt(puissance, n_chr, n_point, 0);
-	if (!print_point(num, n, n_point) && n_chr == 0)
+	if (!p_p(num, n, n_point) && n_chr == 0)
 		res = 0;
 	filler = get_filler(num);
 	puissance = print_d_n_2(puissance, n_point);
-	if (print_point(num, n, n_point))
+	if (p_p(num, n, n_point))
 		ft_putnbr_fd(n, 1);
 	if (!print_point_u(num, n, n_point) && n_chr > 0)
 		ft_putchar_fd(32, 1);
