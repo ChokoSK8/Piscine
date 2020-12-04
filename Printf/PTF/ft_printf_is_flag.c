@@ -6,7 +6,7 @@
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 11:38:01 by abrun             #+#    #+#             */
-/*   Updated: 2020/12/01 11:38:51 by abrun            ###   ########.fr       */
+/*   Updated: 2020/12/04 14:22:45 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,17 @@ int		is_flag_zero(char *num)
 			return (1);
 		counter++;
 	}
+	return (0);
+}
+
+int		is_flag_minus(char *num)
+{
+	int counter;
+
+	counter = 0;
+	while (num[counter] == ' ' || num[counter] == '0')
+		counter++;
+	if (num[counter] && num[counter] == '-')
+		return (1);
 	return (0);
 }

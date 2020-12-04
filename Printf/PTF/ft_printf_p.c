@@ -1,61 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_c.c                                      :+:      :+:    :+:   */
+/*   ft_printf_p.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/02 09:50:58 by abrun             #+#    #+#             */
-/*   Updated: 2020/12/04 14:49:11 by abrun            ###   ########.fr       */
+/*   Created: 2020/12/03 09:46:22 by abrun             #+#    #+#             */
+/*   Updated: 2020/12/04 14:32:11 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
 
-int		print_c_normal(int n, int n_chr, char *num)
+int		print_p_normal(long long int n, int n_chr)
 {
-	int			n_point;
-	int			filler;
-	int			puissance;
-	int			res;
+	int				puissance;
+	int				res;
 
-	puissance = 1;
-	n_point = get_flag_point(num);
+	puissance = ft_putpui(n, 16) + 2;
 	res = get_res(puissance, n_chr);
-	filler = 32;
-	if (is_flag_zero(num))
-		filler = '0';
-	n_chr = print_c_3(n_chr, puissance, filler);
-	if (print_point(num, n, n_point))
-		ft_putchar_fd(n, 1);
+	while (puissance++ < n_chr)
+		ft_putchar_fd(32, 1);
+	ft_putadress_fd(n, "0123456789abcdef", 1);
 	return (res);
 }
 
-int		print_c_neg(int n, int n_chr, char *num)
+int		print_p_neg(long long int n, int n_chr)
 {
 	int			puissance;
-	int			n_point;
-	int			filler;
 	int			res;
 
-	puissance = 1;
-	n_point = get_flag_point(num);
+	puissance = ft_putpui(n, 16) + 2;
 	res = get_res(puissance, n_chr);
-	filler = get_filler(num);
-	if (print_point(num, n, n_point))
-		ft_putchar_fd(n, 1);
+	ft_putadress_fd(n, "0123456789abcdef", 1);
 	while (puissance++ < n_chr)
 		ft_putchar_fd(32, 1);
 	return (res);
 }
 
-int		print_c(int n, char *num)
+int		print_p(long long int n, char *num)
 {
 	int		n_chr;
 
 	n_chr = get_flag_n(num);
 	if (!is_flag_minus(num))
-		return (print_c_normal(n, n_chr, num));
+		return (print_p_normal(n, n_chr));
 	else
-		return (print_c_neg(n, n_chr, num));
+		return (print_p_neg(n, n_chr));
 }
