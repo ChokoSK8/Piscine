@@ -6,7 +6,7 @@
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 12:06:29 by abrun             #+#    #+#             */
-/*   Updated: 2020/11/26 13:43:49 by abrun            ###   ########.fr       */
+/*   Updated: 2020/12/09 10:18:01 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,14 @@ int				get_next_line(int fd, char **line);
 
 char			*get_buf(int fd, int *ret, char *buf);
 
-char			*fill_line(char *buf, char **line);
+int				fill_line(char *buf, char **line);
 
-size_t			get_len_buff(char *buf);
+size_t			get_len_buf(char *buf);
 
 char			*ft_strdup(const char *s);
+
+size_t			ft_strlen(char *s);
+
+char			*get_new_buf(char *buf);
 
 #endif

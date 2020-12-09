@@ -6,7 +6,7 @@
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 08:21:26 by abrun             #+#    #+#             */
-/*   Updated: 2020/11/26 13:48:29 by abrun            ###   ########.fr       */
+/*   Updated: 2020/12/09 10:38:43 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,14 @@ char			*ft_strdup(const char *s1)
 		s1_len++;
 	len = s1_len;
 	if (!(dst = malloc(sizeof(char) * (s1_len + 1))))
-	{
-		free(dst);
 		return (NULL);
-	}
 	while (s1_len--)
 		*dst++ = *s1++;
 	*dst = '\0';
 	return ((char *)dst - len);
 }
 
-char			*fill_line(char *buf, char **line)
+int				fill_line(char *buf, char **line)
 {
 	size_t			line_bis_len;
 	size_t			buf_len;
@@ -52,21 +49,23 @@ char			*fill_line(char *buf, char **line)
 
 	counter = 0;
 	buf_len = get_len_buf(buf);
-	line_bis_len = 0;
-	while (line[0][line_bis_len])
-		line_bis_len++;
+	line_bis_len = ft_strlen(*line);
 	if (!(line_bis = ft_strdup(*line)))
 		return (0);
 	free(*line);
 	if (!(*line = malloc(buf_len + line_bis_len + 1)))
+	{
+		free(line_bis);
 		return (0);
+	}
 	while (*line_bis)
 		line[0][counter++] = *line_bis++;
 	while (*buf && *buf != '\n')
 		line[0][counter++] = *buf++;
 	if (line[0])
 		line[0][counter] = '\0';
-	return (buf);
+	free(line_bis - line_bis_len);
+	return (1);
 }
 
 char			*get_buf(int fd, int *ret, char *buf)
@@ -74,23 +73,18 @@ char			*get_buf(int fd, int *ret, char *buf)
 	if (!buf)
 	{
 		if (!(buf = malloc(BUFFER_SIZE + 1)))
-		{
-			free(buf);
 			return (0);
-		}
 		*ret = read(fd, buf, BUFFER_SIZE);
 		if (*ret < 0)
 			return (0);
 		buf[*ret] = '\0';
 		return (buf);
 	}
-	else if (!*buf)
+	else if (!*(buf + get_len_buf(buf)))
 	{
+		free(buf);
 		if (!(buf = malloc(BUFFER_SIZE + 1)))
-		{
-			free(buf);
 			return (0);
-		}
 		*ret = read(fd, buf, BUFFER_SIZE);
 		buf[*ret] = '\0';
 	}
@@ -100,25 +94,26 @@ char			*get_buf(int fd, int *ret, char *buf)
 int				get_next_line(int fd, char **line)
 {
 	static char			*buf = NULL;
-	int					ret;
+	static int			ret = 2;
 
-	ret = 2;
 	if (BUFFER_SIZE < 1 || fd < 0 || !line)
 		return (-1);
-	if ((!(buf = get_buf(fd, &ret, buf)) || ret < 0)
-		|| !(*line = malloc(1)))
+	if (!(*line = malloc(1)))
 		return (-1);
-	line[0][0] = '\0';
-	while (*buf != '\n' && ret > 0)
-		if (!(buf = fill_line(buf, line)) ||
-			!(buf = get_buf(fd, &ret, buf)))
+	line[0][0] = 0;
+	if (buf)
+		if (ret <= 0 || !fill_line(buf, line))
+			return (-1);
+	while ((!buf || *(buf + get_len_buf(buf)) != '\n') && ret > 0)
+		if (!(buf = get_buf(fd, &ret, buf)) || !fill_line(buf, line))
 			return (-1);
 	if (ret <= 0)
 	{
-		if (!(buf = fill_line(buf, line)))
-			return (-1);
+		if (buf)
+			free(buf);
 		return (0);
 	}
-	buf++;
-	return (1);
+	if (ret > 0)
+		buf = get_new_buf(buf);
+	return (ret);
 }
