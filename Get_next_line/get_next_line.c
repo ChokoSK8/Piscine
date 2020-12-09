@@ -6,7 +6,7 @@
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 08:21:26 by abrun             #+#    #+#             */
-/*   Updated: 2020/12/09 10:38:43 by abrun            ###   ########.fr       */
+/*   Updated: 2020/12/09 10:58:43 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,5 +115,5 @@ int				get_next_line(int fd, char **line)
 	}
 	if (ret > 0)
 		buf = get_new_buf(buf);
-	return (ret);
+	return (1);
 }
