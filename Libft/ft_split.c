@@ -6,7 +6,7 @@
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 12:10:27 by abrun             #+#    #+#             */
-/*   Updated: 2020/11/21 16:11:45 by abrun            ###   ########.fr       */
+/*   Updated: 2020/12/10 11:19:29 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ unsigned int	ft_cases(char const *s, char c)
 		while (s[counter] != c && s[counter])
 			counter++;
 	}
-	!cases ? cases++ : cases;
 	return (cases);
 }
 
@@ -41,18 +40,29 @@ unsigned int	ft_size_malloc(char const *s, char c)
 	return (size_malloc);
 }
 
-void			ft_fill_split(unsigned int counter, char **split,
-			unsigned int size, char const *s)
+char			**free_split(char **split, int counter)
+{
+	while (counter--)
+		free(split[counter]);
+	free(split);
+	return (0);
+}
+
+char			**ft_fill_split(unsigned int counter, char **split,
+		unsigned int size, char const *s)
 {
 	int i;
 
 	i = 0;
+	if (!(split[counter] = malloc(size + 1)))
+		return (free_split(split, counter));
 	while (size-- > 0)
 	{
 		split[counter][i] = *s++;
 		i++;
 	}
 	split[counter][i] = '\0';
+	return (split);
 }
 
 char			**ft_split(char const *s, char c)
@@ -71,14 +81,12 @@ char			**ft_split(char const *s, char c)
 		while (*s == c)
 			s++;
 		size = ft_size_malloc(s, c);
-		if (!(split[counter] = malloc(size + 1)))
-			return (0);
-		ft_fill_split(counter, split, size, s);
+		if (size)
+			if (!(ft_fill_split(counter, split, size, s)))
+				return (0);
 		size ? counter++ : counter;
 		s += size;
 	}
-	if (!(split[counter] = (char *)malloc(sizeof(char) * (size + 1))))
-		return (0);
 	split[counter] = 0;
 	return (split);
 }

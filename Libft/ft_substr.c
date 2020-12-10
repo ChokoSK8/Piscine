@@ -6,7 +6,7 @@
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 12:43:20 by abrun             #+#    #+#             */
-/*   Updated: 2020/11/20 14:04:10 by abrun            ###   ########.fr       */
+/*   Updated: 2020/12/10 11:27:41 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,16 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	if (!(substr = malloc((len + 1) * sizeof(char))))
 		return (NULL);
 	counter = 0;
-	while (counter < len && start < ft_strlen(s))
+	if (start < ft_strlen(s))
 	{
-		substr[counter] = s[start + counter];
-		counter++;
+		while (counter < len && s[start + counter])
+		{
+			substr[counter] = s[start + counter];
+			counter++;
+		}
+		substr[counter] = '\0';
 	}
-	substr[counter] = '\0';
+	while (counter < (len) + 1)
+		substr[counter++] = 0;
 	return (substr);
 }

@@ -6,7 +6,7 @@
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 09:22:36 by abrun             #+#    #+#             */
-/*   Updated: 2020/11/26 16:57:54 by abrun            ###   ########.fr       */
+/*   Updated: 2020/12/08 11:20:08 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ void	ft_lstclear(t_list **lst, void (*del)(void *))
 	while (*lst)
 	{
 		next = (*lst)->next;
-		del((*lst)->content);
-		*lst = (*lst)->next;
+		ft_lstdelone(*lst, del);
+		*lst = next;
 	}
+	*lst = 0;
+	free(next);
 }
