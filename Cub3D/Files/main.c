@@ -77,11 +77,18 @@ size_t		get_height(char *tab)
 
 size_t		get_width(char *tab)
 {
-	size_t counter;
+	size_t		counter;
+	size_t		width;	
 
 	counter = 0;
+	width = 0;
 	while (tab[counter] && tab[counter] != '\n')
+	{
+		if (tab[counter] == '\t')
+			width += 3;
 		counter++;
+		width++;
+	}
 	return (counter);
 }
 
@@ -104,6 +111,19 @@ size_t		get_length(char *tab)
 	return (len);
 }
 
+int			fill_tabulation(char **map, int i, int *j)
+{
+	int		counter;
+
+	counter = 4;
+	while (counter--)
+	{
+		map[i][*j] = 32;
+		*j += 1;
+	}
+	return (1);
+}
+
 char		**get_map(char *tab)
 {
 	char		**map;
@@ -119,7 +139,12 @@ char		**get_map(char *tab)
 	{
 		map[i] = malloc(sizeof(int) * (get_width(tab) + 1));
 		while (*tab && *tab != '\n')
-			map[i][j++] = *tab++;
+		{
+			if (*tab == '\t')
+				tab += fill_tabulation(map, i, &j);
+			else
+				map[i][j++] = *tab++;
+		}
 		map[i][j] = 0;
 		i++;
 		j = 0;
@@ -154,7 +179,7 @@ void		display_pix(int pix_len, t_param *param, int n, t_point *pt)
 		{
 			if (n == '1')
 				mlx_pixel_put(param->mlx, param->win, pt->x, pt->y, 0x00FF0000);
-			else
+			else if (n == '0')
 				mlx_pixel_put(param->mlx, param->win, pt->x, pt->y, 0x000000FF);
 			pt->x += 1;
 			j++;
@@ -219,7 +244,7 @@ int		main()
 	//On crée une fenêtre
 	win = mlx_new_window(mlx, 400, 400, "mlx_42");
 
-	//On affiche une pixel
+	//On affiche un pixel
 	mlx_pixel_put(mlx, win, 200, 200, 0x00FFFFFF);
 
 	param.mlx = mlx;
