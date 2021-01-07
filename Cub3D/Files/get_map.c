@@ -6,7 +6,7 @@
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/04 14:16:44 by abrun             #+#    #+#             */
-/*   Updated: 2021/01/04 15:16:26 by abrun            ###   ########.fr       */
+/*   Updated: 2021/01/05 15:48:41 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,24 +34,24 @@ size_t		get_height(char *tab)
 	return (height);
 }
 
-int			get_max_width(char **map, char *tab)
+int			get_max_width(char *tab)
 {
 	int		max;
-	int		row;
-	size_t	height;
 	int		width;
 
-	height = get_height(tab);
-	row = 0;
 	max = 0;
-	while (row < height)
+	while (*tab)
 	{
 		width = 0;
-		while (map[row][width])
+		while (*tab != '\n' && *tab)
+		{
 			width++;
+			tab++;
+		}
+		if (*tab)
+			tab++;
 		if (max < width)
 			max = width;
-		row++;
 	}
 	return (max);
 }
@@ -116,20 +116,27 @@ char		**get_map(char *tab)
 	int			i;
 	int			j;
 	int			tab_length;
+	int			max_width;
 
+	max_width = get_max_width(tab);
 	tab_length = get_length(tab);
 	i = 0;
 	j = 0;
 	map = malloc(sizeof(int *) * (get_height(tab) + 1));
 	while (*tab)
 	{
-		map[i] = malloc(sizeof(int) * (get_width(tab) + 1));
+		map[i] = malloc(sizeof(int) * (max_width + 1));
 		while (*tab && *tab != '\n')
 		{
 			if (*tab == '\t')
 				tab += fill_tabulation(map, i, &j);
 			else
 				map[i][j++] = *tab++;
+		}
+		while (j < max_width)
+		{
+			map[i][j] = '1';
+			j++;
 		}
 		map[i][j] = 0;
 		i++;
