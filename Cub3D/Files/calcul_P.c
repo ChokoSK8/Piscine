@@ -6,7 +6,7 @@
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 13:57:59 by abrun             #+#    #+#             */
-/*   Updated: 2020/12/23 12:18:50 by abrun            ###   ########.fr       */
+/*   Updated: 2021/01/05 11:56:53 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,6 @@ typedef struct		s_vect
 	double y;
 }					t_vect;
 
-typedef struct		s_map
-{
-	char	**mat;
-	int		x_max;
-	int		y_max;
-	size_t	len;
-}					t_map;
-
 double		convert_deg_in_rad(double degre)
 {
 	double rad;
@@ -45,33 +37,33 @@ double		convert_deg_in_rad(double degre)
 	return (rad);
 }
 
-void		get_pt_a(t_point hero, double angle, t_point abs, t_point *pt_a)
+void		get_pt_a(player hero, t_point *pt_a, t_map map)
 {
-	if (angle < 180)
+	if (hero.angle < 180)
 	{
-		pt_a->y = hero.y - ((int)hero.y % (int)abs.y);
-		pt_a->y == hero.y ? pt_a->y -= abs.y : pt_a->y;
-		if (angle < 90)
-			pt_a->x = hero.x - ((hero.y - pt_a->y) / tan((convert_deg_in_rad(angle))));
+		pt_a->y = hero.y - (hero.y % map.len_pix);
+		pt_a->y == hero.y ? pt_a->y -= map.len_pix : pt_a->y;
+		if (hero.angle < 90)
+			pt_a->x = hero.x - ((hero.y - pt_a->y) / tan((convert_deg_in_rad(hero.angle))));
 		else
-			pt_a->x = hero.x + ((hero.y - pt_a->y) / tan((convert_deg_in_rad(180 - angle))));
+			pt_a->x = hero.x + ((hero.y - pt_a->y) / tan((convert_deg_in_rad(180 - hero.angle))));
 	}
 	else
 	{
-		pt_a->y = hero.y + ((int)hero.y % (int)abs.y);
-		pt_a->y == hero.y ? pt_a->y += abs.y : pt_a->y;
+		pt_a->y = hero.y + (hero.y % map.len_pix);
+		pt_a->y == hero.y ? pt_a->y += map.len_pix : pt_a->y;
 		if (angle < 270)
-			pt_a->x = hero.x - (hero.y - pt_a->y) / tan((convert_deg_in_rad(angle - 180)));
+			pt_a->x = hero.x - (hero.y - pt_a->y) / tan((convert_deg_in_rad(hero.angle - 180)));
 		else
-			pt_a->x = hero.x + ((hero.y - pt_a->y) / tan((convert_deg_in_rad(360 - angle))));
+			pt_a->x = hero.x + ((hero.y - pt_a->y) / tan((convert_deg_in_rad(360 - hero.angle))));
 	}
 }
 
-void		get_vector(double angle, t_point abs, t_vect *vector)
+void		get_vector(int angle, int len_pix, t_vect *vector)
 {
 	if (angle < 180)
 	{
-		vector->y = -abs.y;
+		vector->y = len_pix;
 		if (angle < 90)
 			vector->x = vector->y / tan(convert_deg_in_rad(angle));
 		else
@@ -79,7 +71,7 @@ void		get_vector(double angle, t_point abs, t_vect *vector)
 	}
 	else
 	{
-		vector->y = abs.y;
+		vector->y = lenb_pix;
 		if (angle < 270)
 			vector->x = vector->y / tan(convert_deg_in_rad(angle));
 		else
@@ -87,62 +79,43 @@ void		get_vector(double angle, t_point abs, t_vect *vector)
 	}
 }
 
-int			is_wall_horizontal(t_point pt, double angle, t_map map)
+int			is_wall_horizontal(t_point pt, int angle, t_map map)
 {
 	int		x;
 	int		y;
 
 	if (angle < 180)
-		y = (pt.y / map.len) - 1;
+		y = (pt.y / map.len_pix) - 1;
+		else
+		y = pt.y / map.len_pix;
+	if ((int)pt.x % map.len_pix || (angle < 270 && angle > 90))
+		x = pt.x / map.len_pix;
 	else
-		y = pt.y / map.len;
-	if ((int)pt.x % map.len || (angle < 270 && angle > 90))
-		x = pt.x / map.len;
-	else
-		x = (pt.x / map.len) - 1;
-	if (x <= map.x_max && map.mat[x][y] == '1')
+		x = (pt.x / map.len_pix) - 1;
+	if (x <= map.height - 1 && x >= 0 && map.map[x][y] == '1')
 		return (1);
-	if (x > map.x_max)
+	if (x >= map.height || x < 0)
 		return (2);
 	return (0);
 }
 
-double		get_hp_horizontal(t_point hero, double angle, t_point abs, t_map map)
+double		get_hp_horizontal(t_param param, t_map map)
 {
 	t_point		pt_a;
 	t_vect		vector;
 	double		hp;
-	int			ret;
 
-	get_pt_a(hero, angle, abs, &pt_a);
+	get_pt_a(param.hero, &pt_a);
 	printf("pt(%f,%f)\n", pt_a.x, pt_a.y);
-	get_vector(angle, abs, &vector);
+	get_vector(param.hero.angle, map.len_pix, &vector);
 	printf("vector(%f,%f)\n", vector.x, vector.y);
-	while (!(ret = is_wall_horizontal(pt_a, angle, map)))
+	while (!(ret = is_wall_horizontal(pt_a, param.hero.angle, map)))
 	{
 		pt_a.x += vector.x;
-		pt_a.y += map.len;
+		pt_a.y += map.len_pix;
 	}
 	/*if (ret == 2)
 	  return (-1);*/
 	hp = sqrt(pow(hero.y - pt_a.y, 2) + pow(hero.x - pt_a.x, 2));
 	return (hp);
-}
-
-int			main()
-{
-	t_point		hero;
-	t_point		abs;
-	double		angle;
-	t_map		map;
-
-
-	abs.x = 100;
-	abs.y = 100;
-
-	hero.x = 150;
-	hero.y = 200;
-
-	angle = 187;
-	get_hp_horizontal(hero, angle, abs, map);
 }
