@@ -6,7 +6,7 @@
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 13:41:21 by abrun             #+#    #+#             */
-/*   Updated: 2020/12/04 16:57:22 by abrun            ###   ########.fr       */
+/*   Updated: 2021/01/12 18:03:58 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 char		*get_null_s(char *s, int *puissance, int n_point)
 {
+	if (n_point > 6)
+		n_point = 6;
 	if (!(s = ft_strdup("(null)", n_point)))
 		return (0);
 	*puissance = ft_strlen(s);

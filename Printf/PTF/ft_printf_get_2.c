@@ -6,7 +6,7 @@
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 16:41:20 by abrun             #+#    #+#             */
-/*   Updated: 2020/12/04 16:41:58 by abrun            ###   ########.fr       */
+/*   Updated: 2021/01/12 16:56:10 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,20 @@
 
 int		get_flag_n(char *num)
 {
-	size_t		start;
+	int			start;
 	int			n;
-
-	start = ft_strlen(num) - 1;
+	
 	if (is_flag_point(num))
 	{
+		start = ft_strlen(num) - 1;
 		while (num[start] != '.' && start >= 0)
 			start--;
-		start--;
+		while (ft_isdigit(num[start]) && start >= 0)
+			start--;
+		n = ft_atoi(num + start + 1);
 	}
-	while (ft_isdigit(num[start]) && start >= 0)
-		start--;
-	n = ft_atoi(num + start + 1);
+	else
+		return (-1);
 	return (n);
 }
 

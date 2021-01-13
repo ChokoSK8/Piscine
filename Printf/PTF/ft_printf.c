@@ -6,7 +6,7 @@
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 14:58:07 by abrun             #+#    #+#             */
-/*   Updated: 2020/12/04 18:24:00 by abrun            ###   ########.fr       */
+/*   Updated: 2021/01/12 17:57:26 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,11 @@ int			fill_num_star(char *num, int *c_num, int n)
 	int		counter;
 
 	counter = *c_num;
+	num[counter] = 0;
 	puissance = ft_putpui(n, 10);
 	n < 0 && is_flag_minus(num) ? n *= -1 : n;
 	n < 0 ? puissance-- : puissance;
+	n < 0 && is_flag_point(num) ? n *= -1 : n;
 	if (n < 0)
 	{
 		num[counter++] = '-';

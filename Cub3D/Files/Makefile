@@ -17,6 +17,9 @@ $(NOM):	$(OBJ)
 	ar -r $(NOM) $(OBJ)
 	ranlib $(NOM)
 
+test:	all
+		gcc $(NOM) -framework OpenGL -framework AppKit test.c
+
 clean:
 	rm -f $(NOM) $(OBJ) *~
 	rm -f mlx_app
