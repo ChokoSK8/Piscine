@@ -6,7 +6,7 @@
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 18:28:43 by abrun             #+#    #+#             */
-/*   Updated: 2020/12/04 18:32:29 by abrun            ###   ########.fr       */
+/*   Updated: 2021/01/14 19:04:45 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,11 @@ void				print_d_2(int filler, int n);
 int					print_d_3(int n_chr, int puissance,
 		int n_point, int filler);
 
-void				print_d_4(int n_point, int puissance, int n, int filler);
+void				print_d_4(int n_point, int puissance,
+		long int n, int filler);
 
-int					print_d_5(int n_point, int puissance, int n, int filler);
+int					print_d_5(int n_point, int puissance,
+		long int n, int filler);
 
 void				print_d_6(char *num, int n, int n_point, long int nbr);
 
@@ -62,7 +64,7 @@ int					get_flag_point_s(char *num, int puissance);
 
 int					get_space_or_plus(char *num);
 
-int					get_filler(char *num);
+int					get_filler(char *num, int n_point);
 
 int					get_res(int puissance, int n_chr);
 

@@ -4,8 +4,6 @@ SRCS	= ft_putunsigned_fd.c ft_putnbr_base.c ft_putadress_fd.c Libft/*.c ft_print
 
 OBJS	= $(SRCS:.c=.o)
 
-LIB		= prinft.h Libft/libft.h
-
 CC		= cc
 
 AR		= ar rc
@@ -14,7 +12,7 @@ RM		= rm -rf
 
 INC		= -I includes/
 
-CFLAGS	= -Wall -Werror -Wextra
+CFLAGS	= -Wall -Werror -Wextra 
 
 %.o: %.c
 			$(CC) $(CFLAGS) $(INC) -o $@ -c $?

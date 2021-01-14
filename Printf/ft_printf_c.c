@@ -6,7 +6,7 @@
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 09:50:58 by abrun             #+#    #+#             */
-/*   Updated: 2020/12/04 18:22:04 by abrun            ###   ########.fr       */
+/*   Updated: 2021/01/14 17:41:39 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int		print_c_neg(int n, int n_chr, char *num)
 	puissance = 1;
 	n_point = get_flag_point(num);
 	res = get_res(puissance, n_chr);
-	filler = get_filler(num);
+	filler = get_filler(num, n_point);
 	if (p_p(num, n, n_point))
 		ft_putchar_fd(n, 1);
 	while (puissance++ < n_chr)

@@ -6,7 +6,7 @@
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 11:35:14 by abrun             #+#    #+#             */
-/*   Updated: 2021/01/05 14:34:43 by abrun            ###   ########.fr       */
+/*   Updated: 2021/01/14 18:38:30 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int		get_res_npt(int puissance, int n_chr, int n_point, int space_plus)
 	space_plus ? n_chr++ : n_chr;
 	space_plus ? n_point++ : n_point;
 	space_plus && puissance >= n_chr ? puissance++ : puissance;
-	if (puissance > n_point && puissance > n_chr)
+	if (puissance >= n_point && puissance > n_chr)
 		return (puissance);
 	else if (n_point > puissance && n_point > n_chr)
 		return (n_point);

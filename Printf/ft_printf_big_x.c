@@ -1,68 +1,74 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_u.c                                      :+:      :+:    :+:   */
+/*   ft_printf_big_x.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/02 16:12:02 by abrun             #+#    #+#             */
-/*   Updated: 2020/12/04 17:40:03 by abrun            ###   ########.fr       */
+/*   Created: 2020/12/03 09:27:29 by abrun             #+#    #+#             */
+/*   Updated: 2021/01/14 18:51:20 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
 
-int		print_u_normal(unsigned int n, int n_chr, char *num)
+void		print_bigx_6(char *num, unsigned int n, int n_point)
 {
-	int			puissance;
-	int			n_point;
-	int			filler;
-	int			res;
+	if (p_p(num, n, n_point))
+		ft_putnbr_base_fd(n, "0123456789ABCDEF", 1);
+}
 
-	puissance = ft_putpui(n, 10);
+int			print_bigx_normal(unsigned int n, int n_chr, char *num)
+{
+	int				puissance;
+	int				n_point;
+	int				filler;
+	int				res;
+
+	puissance = ft_putpui(n, 16);
 	n_point = get_flag_point(num);
 	res = get_res_npt(puissance, n_chr, n_point, 0);
-	if (!p_p(num, n, n_point) && n_chr == 0)
-		res = 0;
-	filler = get_filler(num);
-	n_chr = print_u_2(n_chr, puissance, n_point, filler);
+	!p_p(num, n, n_point) && !n_chr ? res -= 1 : res;
+	filler = get_filler(num, n_point);
+	print_x_2(filler, n);
+	n_chr = print_d_3(n_chr, puissance, n_point, filler);
 	puissance = print_d_5(n_point, puissance, n, filler);
-	print_u_3(num, n, n_point);
-	if (!print_point_u(num, n, n_point) && n_chr > 0)
+	print_bigx_6(num, n, n_point);
+	if (!p_p(num, n, n_point) && n_chr > 0)
 		ft_putchar_fd(filler, 1);
 	return (res);
 }
 
-int		print_u_neg(unsigned int n, int n_chr, char *num)
+int			print_bigx_neg(unsigned int n, int n_chr, char *num)
 {
 	int			puissance;
 	int			n_point;
 	int			filler;
 	int			res;
 
-	puissance = ft_putpui(n, 10);
+	puissance = ft_putpui(n, 16);
 	n_point = get_flag_point(num);
 	res = get_res_npt(puissance, n_chr, n_point, 0);
-	if (!p_p(num, n, n_point) && n_chr == 0)
-		res = 0;
-	filler = get_filler(num);
+	!p_p(num, n, n_point) && !n_chr ? res -= 1 : res;
+	filler = get_filler(num, n_point);
+	n_chr += print_x_n_1(n_point, n);
 	puissance = print_d_n_2(puissance, n_point);
 	if (p_p(num, n, n_point))
-		ft_putnbr_fd(n, 1);
-	if (!print_point_u(num, n, n_point) && n_chr > 0)
+		ft_putnbr_base_fd(n, "0123456789ABCDEF", 1);
+	if (!p_p(num, n, n_point) && n_chr > 0)
 		ft_putchar_fd(32, 1);
 	while (puissance++ < n_chr)
 		ft_putchar_fd(32, 1);
 	return (res);
 }
 
-int		print_u(unsigned int n, char *num)
+int			print_bigx(unsigned int n, char *num)
 {
 	int		n_chr;
 
 	n_chr = get_flag_n(num);
 	if (!is_flag_minus(num))
-		return (print_u_normal(n, n_chr, num));
+		return (print_bigx_normal(n, n_chr, num));
 	else
-		return (print_u_neg(n, n_chr, num));
+		return (print_bigx_neg(n, n_chr, num));
 }

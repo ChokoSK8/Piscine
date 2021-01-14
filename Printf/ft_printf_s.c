@@ -6,7 +6,7 @@
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 13:41:21 by abrun             #+#    #+#             */
-/*   Updated: 2021/01/12 18:03:58 by abrun            ###   ########.fr       */
+/*   Updated: 2021/01/14 18:00:11 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int			print_s_normal(char *s, int n_chr, char *num)
 	filler = 32;
 	if (is_flag_zero(num))
 		filler = '0';
-	if (is_flag_point(num) && puissance > n_point)
+	if (is_flag_point(num) && puissance > n_point && n_point >= 0)
 		puissance = n_point;
 	n_chr = print_c_3(n_chr, puissance, filler);
 	print_s_npt(n_point, s, puissance, num);
@@ -59,7 +59,7 @@ int			print_s_neg(char *s, int n_chr, char *num)
 		if (!(s = get_null_s(s, &puissance, n_point)))
 			return (-1);
 	res = get_res_s(puissance, n_chr, n_point);
-	if (is_flag_point(num) && puissance > n_point)
+	if (is_flag_point(num) && puissance > n_point && n_point >= 0)
 		puissance = n_point;
 	print_s_npt(n_point, s, puissance, num);
 	while (puissance++ < n_chr)

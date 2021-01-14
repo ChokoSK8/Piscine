@@ -6,7 +6,7 @@
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 11:38:01 by abrun             #+#    #+#             */
-/*   Updated: 2021/01/12 17:53:10 by abrun            ###   ########.fr       */
+/*   Updated: 2021/01/14 18:03:25 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int		is_flag_zero(char *num)
 		return (0);
 	if (num[counter] == '0')
 		return (1);
-	while (num[counter])
+	while (num[counter] && num[counter] != '.')
 	{
 		if (num[counter] == '0' && !ft_isdigit(num[counter - 1]))
 			return (1);

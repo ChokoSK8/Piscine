@@ -6,7 +6,7 @@
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 15:19:09 by abrun             #+#    #+#             */
-/*   Updated: 2020/12/04 17:42:50 by abrun            ###   ########.fr       */
+/*   Updated: 2021/01/14 19:00:48 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int			print_d_n_2(int puissance, int n_point)
 {
-	while (puissance < n_point)
+	while (puissance < n_point && n_point >= 0)
 	{
 		ft_putchar_fd('0', 1);
 		puissance++;
@@ -22,13 +22,13 @@ int			print_d_n_2(int puissance, int n_point)
 	return (puissance);
 }
 
-void		print_d_4(int n_point, int puissance, int n, int filler)
+void		print_d_4(int n_point, int puissance, long int n, int filler)
 {
 	if (n_point > puissance && n < 0 && filler != '0')
 		ft_putchar_fd('-', 1);
 }
 
-int			print_d_5(int n_point, int puissance, int n, int filler)
+int			print_d_5(int n_point, int puissance, long int n, int filler)
 {
 	print_d_4(n_point, puissance, n, filler);
 	while (n_point > puissance)
