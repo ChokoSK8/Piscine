@@ -6,7 +6,7 @@
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 18:28:43 by abrun             #+#    #+#             */
-/*   Updated: 2021/01/14 19:04:45 by abrun            ###   ########.fr       */
+/*   Updated: 2021/01/26 09:35:42 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int					print_d_n_1(int n_point, int n);
 
 int					print_d_n_2(int puissance, int n_point);
 
-int					p_p(char *num, int n, int n_point);
+int					p_p(char *num, long long int n, int n_point);
 
 int					is_flag_point(char *num);
 
@@ -77,9 +77,9 @@ int					get_res_npt_pos(int n, int n_chr, int npt, int space_plus);
 
 int					get_res_npt_neg(int n, int n_chr, int npt, int space_plus);
 
-int					print_p_normal(long long int n, int n_chr);
+int					print_p_normal(long long int n, int n_chr, char *num);
 
-int					print_p_neg(long long int n, int n_chr);
+int					print_p_neg(long long int n, int n_chr, char *num);
 
 int					print_p(long long int n, char *num);
 
@@ -159,6 +159,12 @@ int					browse_s(const char *s, int *n_chr);
 int					fill_num_last_step(int puissance, char *num,
 		int n, int counter);
 
-int					fill_num_star(char *num, int *c_num, int n);
+int					fill_num_star(char *num, int *c_num, int n, char next);
+
+int					is_valid(char c);
+
+int					browse_all(const char *s, int *c, char *n, va_list lst);
+
+int					error_malloc(char *num, int n_chr, va_list lst);
 
 #endif

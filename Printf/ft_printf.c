@@ -6,7 +6,7 @@
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/24 14:58:07 by abrun             #+#    #+#             */
-/*   Updated: 2021/01/14 19:03:01 by abrun            ###   ########.fr       */
+/*   Updated: 2021/01/26 10:08:26 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,13 @@ int			fill_num_last_step(int puissance, char *num, int n, int counter)
 	return (counter);
 }
 
-int			fill_num_star(char *num, int *c_num, int n)
+int			fill_num_star(char *num, int *c_num, int n, char next)
 {
 	int		puissance;
 	int		counter;
 
+	if (ft_isdigit(next))
+		return (1);
 	counter = *c_num;
 	num[counter] = 0;
 	puissance = ft_putpui(n, 10);
@@ -97,6 +99,7 @@ int			ft_printf(const char *s, ...)
 	char		*num;
 	int			c_num;
 	int			n_chr;
+	int			res;
 
 	n_chr = 0;
 	va_start(lst, s);
@@ -107,14 +110,13 @@ int			ft_printf(const char *s, ...)
 		s += browse_s(s, &n_chr);
 		if (*s && *s == '%')
 		{
-			s += pass_the_spaces(s, &c_num, num);
-			s += browse_2nd_step(s, num, &c_num);
-			num[0] && c_num == 0 ? c_num++ : c_num;
-			s += browse_3rd_step(s, num, c_num, lst);
-			n_chr += print_va_arg(*s, lst, num);
-			*s ? s++ : s;
-			free(num);
+			s += browse_all(s, &c_num, num, lst);
+			(res = print_va_arg(*s, lst, num)) > 0 ? n_chr += res : n_chr;
+			if (res < 0)
+				return (error_malloc(num, n_chr, lst));
+			is_valid(*s) ? s++ : s;
 		}
+		free(num);
 	}
 	va_end(lst);
 	return (n_chr);

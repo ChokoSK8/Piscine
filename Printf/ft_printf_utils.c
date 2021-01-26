@@ -6,11 +6,20 @@
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/04 14:58:22 by abrun             #+#    #+#             */
-/*   Updated: 2020/12/04 16:58:38 by abrun            ###   ########.fr       */
+/*   Updated: 2021/01/20 11:47:17 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
+
+int			is_valid(char c)
+{
+	if (c == 's' || c == 'd' || c == 'i' || c == 'x'
+		|| c == 'X' || c == 'p' || c == '%' || c == 'c' || c == 'u')
+		return (1);
+	else
+		return (0);
+}
 
 int			browse_s(const char *s, int *n_chr)
 {
@@ -76,7 +85,7 @@ int			browse_3rd_step(const char *s, char *num, int c_num, va_list lst)
 	{
 		if (*s == '*')
 		{
-			if (!(fill_num_star(num, &c_num, va_arg(lst, int))))
+			if (!(fill_num_star(num, &c_num, va_arg(lst, int), *(s + 1))))
 				return (0);
 			s++;
 		}

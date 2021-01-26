@@ -6,7 +6,7 @@
 /*   By: abrun <abrun@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 11:29:44 by abrun             #+#    #+#             */
-/*   Updated: 2021/01/14 19:03:18 by abrun            ###   ########.fr       */
+/*   Updated: 2021/01/20 11:23:15 by abrun            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int			print_d_3(int n_chr, int puissance, int n_point, int filler)
 	return (n_chr);
 }
 
-int			p_p(char *num, int n, int n_point)
+int			p_p(char *num, long long int n, int n_point)
 {
 	if (is_flag_point(num) && !n && !n_point)
 		return (0);
